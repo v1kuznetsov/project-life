@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background-dark: #131313;
+  --background-light: #dbdbdb;
+  --window-background: #202020;
+
+  --foreground-light: #eaeaea;
+  --foreground-dark: #000000;
+  --foreground-active: #2b2b2b;
+
+  --foreground-extra-color: #626262;
+
+  --button-background: #ffffff;
+  --button-background-active: #757575;
+}
+
+.button-colors {
+  background-color: var(--button-background);
+  color: var(--foreground-dark);
+}
+.button-colors:active {
+  background-color: var(--button-background-active);
+  color: var(--foreground-light);
+}
+
+.window-colors {
+  background-color: var(--window-background);
+}
+
+body {
+  color: var(--foreground-light);
+  background: var(--background-dark);
+}
