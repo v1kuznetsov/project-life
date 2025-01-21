@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
-import { Roboto_Mono } from "next/font/google";
+import { IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
-import { redirect } from "next/navigation";
 
-const mainFont = Roboto_Mono({
+const mainFont = IBM_Plex_Mono({
   weight: ["100", "200", "300", "400", "500", "600", "700"],
   style: ["normal"],
   subsets: ["latin", "cyrillic"],

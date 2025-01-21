@@ -1,7 +1,7 @@
 "use client";
 
 import { ChevronsLeft, ChevronsRight } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "./Link";
 
 const DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -21,8 +21,11 @@ const MONTHS = [
 ];
 
 export default function GridTailwindCalendar() {
+  const currentYear = new Date().getFullYear();
   const [currentDate, setCurrentDate] = useState(new Date());
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedMonth, setSelectedMonth] = useState(currentDate.getMonth());
+  const [selectedYear, setSelectedYear] = useState(currentDate.getFullYear());
 
   const getDaysInMonth = (year: number, month: number) => {
     return new Date(year, month + 1, 0).getDate();
@@ -42,6 +45,14 @@ export default function GridTailwindCalendar() {
     setCurrentDate(
       (prev) => new Date(prev.getFullYear(), prev.getMonth() + 1, 1),
     );
+  };
+
+  const handleMonthChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedMonth(Number.parseInt(event.target.value));
+  };
+
+  const handleYearChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedYear(Number.parseInt(event.target.value));
   };
 
   const isToday = (date: Date) => {
@@ -65,6 +76,10 @@ export default function GridTailwindCalendar() {
     });
   };
 
+  useEffect(() => {
+    setCurrentDate(new Date(selectedYear, selectedMonth, 1));
+  }, [selectedMonth, selectedYear]);
+
   const renderCalendar = () => {
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth();
@@ -72,7 +87,6 @@ export default function GridTailwindCalendar() {
     const firstDayOfMonth = getFirstDayOfMonth(year, month);
 
     const daysInPrevMonth = getDaysInMonth(year, month - 1);
-    const daysInNextMonth = getDaysInMonth(year, month + 1);
 
     const days = [];
 
@@ -99,7 +113,7 @@ export default function GridTailwindCalendar() {
           key={`current-${day}`}
           onClick={() => handleDateClick(date)}
           className={`grid aspect-square content-center rounded-full p-3 text-center text-xl hover:bg-[--background-light] hover:text-[--foreground-dark] ${
-            isToday(date) ? "bg-[--foreground-extra-color]" : ""
+            isToday(date) ? "outline outline-1" : ""
           } ${selectedDate && date.toDateString() === selectedDate.toDateString() ? "bg-[--background-light] text-[--foreground-dark]" : ""}`}
         >
           {day}
@@ -128,18 +142,42 @@ export default function GridTailwindCalendar() {
   return (
     <div className="window-colors grid rounded-2xl p-4 text-[--foreground-light]">
       <div className="grid grid-cols-[auto,1fr,auto] pb-4">
+        <div className="grid grid-cols-[auto,auto]">
+          <select
+            value={selectedMonth}
+            onChange={handleMonthChange}
+            className="bg-transparent text-[--foreground-light]"
+          >
+            {MONTHS.map((month, index) => (
+              <option key={month} value={index}>
+                {month}
+              </option>
+            ))}
+          </select>
+          <select
+            value={selectedYear}
+            onChange={handleYearChange}
+            className="bg-transparent text-[--foreground-light]"
+          >
+            {Array.from(
+              { length: currentYear - 1900 },
+              (_, i) => currentYear - i,
+            ).map((year) => (
+              <option key={year} value={year}>
+                {year}
+              </option>
+            ))}
+          </select>
+        </div>
         <button
           onClick={handlePrevMonth}
-          className="justify-self-end active:text-[--foreground-active]"
+          className="justify-self-end pr-4 active:text-[--foreground-active]"
         >
           <ChevronsLeft className="size-8" />
         </button>
-        <p className="text-center text-2xl font-bold">
-          {MONTHS[currentDate.getMonth()]} {currentDate.getFullYear()}
-        </p>
         <button
           onClick={handleNextMonth}
-          className="justify-self-end active:text-[--foreground-active]"
+          className="justify-self-end pl-4 active:text-[--foreground-active]"
         >
           <ChevronsRight className="size-8" />
         </button>
@@ -157,7 +195,10 @@ export default function GridTailwindCalendar() {
       </div>
       <Link
         className="button-colors mt-4 min-h-12 content-center rounded-2xl text-center transition-colors"
-        href={"/age"}
+        href={"/grid"}
+        onClick={() => {
+          localStorage.setItem("age", formatDate(selectedDate));
+        }}
       >
         Continue
       </Link>
