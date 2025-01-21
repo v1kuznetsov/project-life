@@ -5,7 +5,7 @@ export default function Home() {
   // throw new Error("Something went wrong");
   return (
     <div className="window-colors grid w-fit grid-cols-1 gap-4 rounded-2xl p-4 text-xl">
-      <p className="my-4 grid justify-center text-4xl font-bold">
+      <p className="my-4 grid justify-center text-center text-4xl font-bold">
         Welcome to Life!
       </p>
       <p className="grid grid-cols-[auto,1fr] items-center gap-2 text-[--foreground-extra-color]">
@@ -17,8 +17,8 @@ export default function Home() {
         Tab on period of time to switch views
       </p>
       <Link
-        className="button-colors min-h-12 content-center rounded-2xl text-center"
-        href={"/"}
+        className="button-colors min-h-12 content-center rounded-2xl text-center transition-colors"
+        href={"/age"}
       >
         Get Started!
       </Link>

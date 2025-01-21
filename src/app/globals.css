@@ -5,7 +5,7 @@
 :root {
   --background-dark: #131313;
   --background-light: #dbdbdb;
-  --window-background: #202020;
+  --background-for-window: #202020;
 
   --foreground-light: #eaeaea;
   --foreground-dark: #000000;
@@ -27,7 +27,7 @@
 }
 
 .window-colors {
-  background-color: var(--window-background);
+  background-color: var(--background-for-window);
 }
 
 body {
