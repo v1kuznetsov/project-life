@@ -22,7 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${mainFont.className}`}>
-        <div className="grid min-h-svh w-full items-center justify-center">
+        <div className="grid min-h-svh w-full grid-rows-[1fr,auto]">
           {children}
         </div>
       </body>
